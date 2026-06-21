@@ -50,7 +50,8 @@ def parse_ping_time(output:str,system:str)->str:
         else:
             for line in output.split("\n"):
                 if "min/avg/max" in line or "rtt" in line:
-                    return line.split("/")[1] + "ms"
+                    parts = line.split("=")[-1].strip().split("/")
+                    return parts[1] + " ms"
     except:
         pass
     return "N/A"    

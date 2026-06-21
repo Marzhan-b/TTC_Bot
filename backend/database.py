@@ -2,8 +2,13 @@ import os
 from sqlalchemy.ext.asyncio import create_async_engine,AsyncSession
 from sqlalchemy.orm import declarative_base,sessionmaker
 from sqlalchemy import Column,Integer,String,Boolean,DateTime
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
+
+KZ_TZ = timezone(timedelta(hours=5))  # Алматы UTC+5
+
+def now_kz():
+    return datetime.now(KZ_TZ).replace(tzinfo=None)
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:1234@localhost:5432/network_monitor")
 if DATABASE_URL.startswith("postgresql://"):
@@ -26,7 +31,7 @@ class PingLog(Base):
     ip=Column(String)
     is_online=Column(Boolean)
     response_time=Column(String)
-    checked_at=Column(DateTime,default=datetime.now)
+    checked_at = Column(DateTime, default=now_kz)
 
 async def init_db():
     async with engine.begin() as conn:
