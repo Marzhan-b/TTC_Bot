@@ -36,11 +36,11 @@ def ping_host(host:str)->dict:
         }
     except Exception as e:
         return{
-            "host":host,
-            "alive":is_alive,
-            "avg_time":avg_time,
-            "output":str(e),
-        }
+            "host": host,
+            "alive": False,
+            "avg_time": None,
+            "output": str(e),
+    }
 def parse_ping_time(output:str,system:str)->str:
     try:
         if system == "windows":

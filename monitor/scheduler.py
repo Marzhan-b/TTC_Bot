@@ -7,7 +7,6 @@ import asyncio
 DUTY_CHAT_ID = None
 bot_instance = None
 
-# запоминаем какие узлы уже офлайн чтобы не спамить
 offline_nodes = set()
 
 async def check_all_hosts():
@@ -36,7 +35,6 @@ async def check_all_hosts():
                     await session.commit()
 
                 if not result["alive"]:
-                    # уведомляем только если узел только что упал
                     if ip not in offline_nodes and DUTY_CHAT_ID and bot_instance:
                         print(f"  🚨 Отправляю уведомление про {node_name}...")
                         await bot_instance.send_message(
@@ -49,7 +47,6 @@ async def check_all_hosts():
                         )
                     offline_nodes.add(ip)
                 else:
-                    # узел восстановился — убираем из списка и уведомляем
                     if ip in offline_nodes and DUTY_CHAT_ID and bot_instance:
                         print(f"  ✅ {node_name} восстановился!")
                         await bot_instance.send_message(
