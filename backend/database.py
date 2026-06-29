@@ -2,7 +2,9 @@ import os
 from sqlalchemy.ext.asyncio import create_async_engine,AsyncSession
 from sqlalchemy.orm import declarative_base,sessionmaker
 from sqlalchemy import Column,Integer,String,Boolean,DateTime
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, BigInteger
 from datetime import datetime, timezone, timedelta
+
 
 
 KZ_TZ = timezone(timedelta(hours=5))  # Алматы UTC+5
@@ -37,7 +39,7 @@ class DutyUser(Base):
     __tablename__ = "duty_users"
     
     id = Column(Integer, primary_key=True)
-    chat_id = Column(Integer, unique=True)
+    chat_id = Column(BigInteger, unique=True)
 
 async def init_db():
     async with engine.begin() as conn:
