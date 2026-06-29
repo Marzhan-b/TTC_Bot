@@ -6,6 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from monitor.checker import ping_host, check_and_log
 from backend.queries import get_last_checks, get_offline_hosts
 from backend.database import async_session, init_db, PingLog
+from backend.queries import get_last_checks, get_offline_hosts, save_duty_user
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -248,7 +249,7 @@ async def cb_help(call: types.CallbackQuery):
 @dp.message(Command("setduty"))
 async def set_duty(message: types.Message):
     lang = get_lang(message.chat.id)
-    scheduler_module.DUTY_CHAT_ID = message.chat.id
+    await save_duty_user(message.chat.id)
     await message.answer(t("duty_set", lang), parse_mode="HTML")
 
 @dp.message(F.text)

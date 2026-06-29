@@ -33,6 +33,12 @@ class PingLog(Base):
     response_time=Column(String)
     checked_at = Column(DateTime, default=now_kz)
 
+class DutyUser(Base):
+    __tablename__ = "duty_users"
+    
+    id = Column(Integer, primary_key=True)
+    chat_id = Column(Integer, unique=True)
+
 async def init_db():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
